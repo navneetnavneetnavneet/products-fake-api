@@ -5,12 +5,12 @@ import Loading from "./Loading";
 
 const Details = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState("");
+  const [product, setproduct] = useState(null);
 
   const singleProduct = async () => {
     try {
       const { data } = await axios.get(`/products/${id}`);
-      setProduct(data);
+      setproduct(data);
     } catch (error) {
       console.log(error);
     }

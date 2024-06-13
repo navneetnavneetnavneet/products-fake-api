@@ -1,29 +1,19 @@
-import React, { useContext, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./components/Home";
 import Details from "./components/Details";
-import axios from "./utils/axios";
-import { productcontext } from "./contexts/ProductContext";
 import NotFound from "./components/NotFound";
 
 const App = () => {
-  const [products, setProducts] = useContext(productcontext);
-
-  const getProducts = async () => {
-    try {
-      const { data } = await axios.get("/products");
-      setProducts(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
+  const { pathname, search } = useLocation();
 
   return (
     <div className="w-full h-screen flex">
+      {(pathname != "/" || search.length > 0) && (
+        <Link to="/" className="text-red-300 absolute left-[20%] top-[3%]">
+          Home
+        </Link>
+      )}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/details/:id" element={<Details />} />

@@ -1,19 +1,43 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Nav from "../components/Nav";
 import { productcontext } from "../contexts/ProductContext";
 import Loading from "./Loading";
+import axios from "../utils/axios";
 
 const Home = () => {
   const [products] = useContext(productcontext);
 
-  return (
+  const { search } = useLocation();
+  const category = decodeURIComponent(search.split("=")[1]);
+
+  const [filteredroducts, setfilteredproducts] = useState(null);
+
+  const getProductCategory = async () => {
+    try {
+      const { data } = await axios.get(`/products/category/${category}`);
+      setfilteredproducts(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!filteredroducts) setfilteredproducts(products);
+    if (filteredroducts != "undefined") getProductCategory();
+  }, [category, products]);
+
+  console.log(filteredroducts);
+
+  
+  return products ? (
     <>
       <Nav />
 
       <div className="w-[85%] h-screen p-[5%] flex gap-x-10 gap-y-10 flex-wrap overflow-x-hidden overflow-y-auto">
-        {products ? (
-          products.map((product) => (
+        
+        {filteredroducts &&
+          filteredroducts.map((product) => (
             <Link
               key={product.id}
               to={`/details/${product.id}`}
@@ -30,12 +54,11 @@ const Home = () => {
                 {product.title}
               </h1>
             </Link>
-          ))
-        ) : (
-          <Loading />
-        )}
+          ))}
       </div>
     </>
+  ) : (
+    <Loading />
   );
 };
 
