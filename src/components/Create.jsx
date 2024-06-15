@@ -1,8 +1,10 @@
 import { nanoid } from "nanoid";
 import { useContext, useState } from "react";
 import { productcontext } from "../contexts/ProductContext";
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
+  const navigate = useNavigate();
   const [products, setproducts] = useContext(productcontext);
 
   const [image, setimage] = useState("");
@@ -35,10 +37,10 @@ const Create = () => {
     }
 
     setproducts([...products, newproduct]);
-    
+    navigate("/");
   };
 
-  console.log(products);
+  // console.log(products);
 
   return (
     <form

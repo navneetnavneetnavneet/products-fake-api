@@ -7,11 +7,10 @@ import axios from "../utils/axios";
 
 const Home = () => {
   const [products] = useContext(productcontext);
+  const [filteredroducts, setfilteredproducts] = useState(null);
 
   const { search } = useLocation();
   const category = decodeURIComponent(search.split("=")[1]);
-
-  const [filteredroducts, setfilteredproducts] = useState(null);
 
   const getProductCategory = async () => {
     try {
@@ -24,10 +23,10 @@ const Home = () => {
 
   useEffect(() => {
     if (!filteredroducts) setfilteredproducts(products);
-    if (filteredroducts != "undefined") getProductCategory();
+    if (filteredroducts && filteredroducts.category != "undefined") getProductCategory(); // if(category != "undefined") getProductCategory();
   }, [category, products]);
 
-  console.log(filteredroducts);
+  // console.log(filteredroducts);
 
   
   return products ? (
@@ -41,16 +40,16 @@ const Home = () => {
             <Link
               key={product.id}
               to={`/details/${product.id}`}
-              className="card w-[17%] h-[50%] border shadow-md flex flex-col items-center py-5 overflow-hidden"
+              className="card w-[17%] h-[50%] p-3 border shadow-md flex flex-col items-center overflow-hidden"
             >
-              <div className="w-full h-[80%]">
+              <div className=" h-[80%]">
                 <img
-                  className="w-full h-full object-contain hover:scale-110 duration-300"
+                  className="w-full h-full object-contain hover:scale-105 duration-300"
                   src={product.image}
                   alt=""
                 />
               </div>
-              <h1 className="mt-5 text-lg font-medium hover:text-blue-200">
+              <h1 className="mt-5 text-sm font-medium leading-tight hover:text-blue-200">
                 {product.title}
               </h1>
             </Link>
