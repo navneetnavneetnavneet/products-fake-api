@@ -37,6 +37,7 @@ const Create = () => {
     }
 
     setproducts([...products, newproduct]);
+    localStorage.setItem("products", JSON.stringify([...products, newproduct]));
     navigate("/");
   };
 

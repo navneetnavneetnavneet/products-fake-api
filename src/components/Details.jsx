@@ -1,10 +1,11 @@
 // import axios from "../utils/axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "./Loading";
 import { productcontext } from "../contexts/ProductContext";
 
 const Details = () => {
+  const navigate = useNavigate();
   const [products, setproducts] = useContext(productcontext);
   const { id } = useParams();
   const [product, setproduct] = useState(null);
@@ -28,7 +29,11 @@ const Details = () => {
   return product ? (
     <div className="w-[70%] h-screen mx-auto p-[10%] flex gap-x-10">
       <div className="w-[40%] h-[50vh]">
-        <img className="h-full w-full  object-contain" src={product.image} alt="" />
+        <img
+          className="h-full w-full  object-contain"
+          src={product.image}
+          alt=""
+        />
       </div>
       <div className="content w-[60%] h-[50vh] flex flex-col justify-center">
         <h1 className="text-3xl font-semibold">{product.title}</h1>

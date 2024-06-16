@@ -3,38 +3,44 @@ import { Link, useLocation } from "react-router-dom";
 import Nav from "../components/Nav";
 import { productcontext } from "../contexts/ProductContext";
 import Loading from "./Loading";
-import axios from "../utils/axios";
+// import axios from "../utils/axios";
 
 const Home = () => {
   const [products] = useContext(productcontext);
+
   const [filteredroducts, setfilteredproducts] = useState(null);
 
   const { search } = useLocation();
   const category = decodeURIComponent(search.split("=")[1]);
 
-  const getProductCategory = async () => {
-    try {
-      const { data } = await axios.get(`/products/category/${category}`);
-      setfilteredproducts(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getProductCategory = async () => {
+  //   try {
+  //     const { data } = await axios.get(`/products/category/${category}`);
+  //     setfilteredproducts(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
-    if (!filteredroducts) setfilteredproducts(products);
-    if (filteredroducts && filteredroducts.category != "undefined") getProductCategory(); // if(category != "undefined") getProductCategory();
+    if (!filteredroducts || category == "undefined")
+      setfilteredproducts(products);
+    if (category != "undefined") {
+      // getProductCategory();
+
+      setfilteredproducts(
+        products && products.filter((p) => p.category === category)
+      );
+    }
   }, [category, products]);
 
   // console.log(filteredroducts);
 
-  
   return products ? (
     <>
       <Nav />
 
       <div className="w-[85%] h-screen p-[5%] flex gap-x-10 gap-y-10 flex-wrap overflow-x-hidden overflow-y-auto">
-        
         {filteredroducts &&
           filteredroducts.map((product) => (
             <Link
