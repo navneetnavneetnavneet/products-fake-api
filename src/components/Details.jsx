@@ -1,8 +1,9 @@
 // import axios from "../utils/axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "./Loading";
 import { productcontext } from "../contexts/ProductContext";
+import { toast } from "react-toastify";
 
 const Details = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Details = () => {
     const filteredProducts = products.filter((p) => p.id !== id);
     setproducts(filteredProducts);
     localStorage.setItem("products", JSON.stringify(filteredProducts));
-
+    toast.success("Product Delete Successfully");
     navigate("/");
   };
 
@@ -51,9 +52,9 @@ const Details = () => {
         </h3>
         <p className="mt-3 mb-10">{product.description}</p>
         <div className="flex gap-x-10">
-          <button className="px-6 py-2 border rounded-md border-blue-200 text-blue-200">
+          <Link to={`/edit/${product.id}`} className="px-6 py-2 border rounded-md border-blue-200 text-blue-200">
             Edit
-          </button>
+          </Link>
           <button
             onClick={() => deleteHandler(product.id)}
             className="px-6 py-2 border rounded-md border-red-200 text-red-200"
