@@ -19,6 +19,14 @@ const Details = () => {
   //   }
   // };
 
+  const deleteHandler = (id) => {
+    const filteredProducts = products.filter((p) => p.id !== id);
+    setproducts(filteredProducts);
+    localStorage.setItem("products", JSON.stringify(filteredProducts));
+
+    navigate("/");
+  };
+
   useEffect(() => {
     if (!product) {
       setproduct(products.filter((p) => p.id == id)[0]);
@@ -46,7 +54,10 @@ const Details = () => {
           <button className="px-6 py-2 border rounded-md border-blue-200 text-blue-200">
             Edit
           </button>
-          <button className="px-6 py-2 border rounded-md border-red-200 text-red-200">
+          <button
+            onClick={() => deleteHandler(product.id)}
+            className="px-6 py-2 border rounded-md border-red-200 text-red-200"
+          >
             Delete
           </button>
         </div>
