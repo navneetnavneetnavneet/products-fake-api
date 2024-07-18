@@ -28,7 +28,7 @@ const Edit = () => {
       product.image.trim().length < 5 ||
       product.title.trim().length < 5 ||
       product.category.trim().length < 5 ||
-      product.price.trim().length < 1 ||
+      product.price.toString().trim().length < 1 ||
       product.description.trim().length < 5
     ) {
       alert("each and every input filed atleast 4 characters!");
